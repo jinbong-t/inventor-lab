@@ -108,6 +108,7 @@ const DECK_DEFAULT = [
     {k:'cards', e:'아이디어 팝콘', h:'브레인스토밍 4가지 규칙', cards:[['1','비판 금지','친구 아이디어에 "그건 안 돼" 금지'],['2','자유롭게','엉뚱할수록 환영'],['3','질보다 양','일단 많이!'],['4','결합·개선','남의 아이디어에 내 것을 더하기']], note:'모둠별 돌려쓰기: 친구 연구 노트 팝콘 칸에 아이디어 써 주기 (5분).'},
     {k:'embed', e:'워밍업', h:'아이디어 뽑기 머신', comp:'gacha', note:'2~3번 돌려 엉뚱한 조합으로 아이디어 말해 보기.'},
     {k:'embed', e:'스캠퍼 휠', h:'7가지 질문으로 돌려 보기', comp:'scamper', note:'교과서 160~161쪽. 3칸 이상 채우기.'},
+    {k:'embed', e:'재료 힌트 · 이런 것도 만들 수 있어', h:'우드락 + 할핀 + 빨대 + 고무줄로?', comp:'ideas', note:'왼쪽 재료를 누르면 그 재료를 쓴 예시가 강조된다. 카드를 눌러 확대. "작동 원리가 보이게" 만드는 것이 핵심(F영역). 예시를 그대로 따라 하지 말고 내 문제에 맞게 바꾸도록 안내.'},
     {k:'cards', e:'아이디어 오디션', h:'PMI + 평가 행렬', cards:[['P','좋은 점','이 아이디어의 좋은 점은?'],['M','나쁜 점','우드락으로 만들 수 있나? 안전한가?'],['I','흥미로운 점','어떤 점이 흥미로운가?'],['∑','평가 행렬','기준별 1~5점, 합계 최고점 = 합격']], note:'선정 이유는 MISSION 1 해결 조건과 연결해서.'},
     {k:'activity', e:'MISSION 2 · 3', h:'팝콘 → 스캠퍼 → 오디션', items:['친구 아이디어 받기 (팝콘)','스캠퍼 휠 3칸 이상','BEST 3 정리','PMI + 평가 행렬 → PASS'], min:25},
   ]},
@@ -161,7 +162,7 @@ function slideHTML(sl, L){
     case 'steps': return `<div class="slide"><span class="eyebrow">${sl.e}</span><h2>${sl.h}</h2><div class="steps5">${sl.steps.map((c,i) => `<div style="--c:${COLORS[i]}"><b>${c[0]}</b><strong style="font-size:32px;display:block;margin-top:10px">${c[1]}</strong><span>${c[2]}</span></div>`).join('')}</div></div>`;
     case 'activity': return `<div class="slide"><span class="eyebrow">${sl.e} · 활동</span><h2>${sl.h}</h2><div class="cols"><div><ol>${sl.items.map(x => `<li>${x}</li>`).join('')}</ol><p class="hand">연구 노트 ${sl.e} 쪽을 펴세요</p></div><div data-comp="timer:${sl.min}"></div></div></div>`;
     case 'embed': {
-      const big = {model:0, missions:1, rubric:1, gacha:1, scamper:1, iso:1, proj:1}[sl.comp.split(':')[0]];
+      const big = {model:0, missions:1, rubric:1, ideas:1, gacha:1, scamper:1, iso:1, proj:1}[sl.comp.split(':')[0]];
       const style = {missions:'--mg:22px;--mp:26px;--mn:64px;--mt:30px;--ms:22px', rubric:'--rg:12px;--rn:300px;--rp:80px;--rf:26px;--rh:48px', gacha:'--gv:54px;--gq:80px;--gb:34px', scamper:'--ws:520px;--sh:60px;--sq:34px;--se:28px', iso:'--is:34px', proj:'--pf:19px;--ph:0px'}[sl.comp.split(':')[0]] || '';
       if (sl.side) return `<div class="slide"><span class="eyebrow">${sl.e}</span><h2>${sl.h}</h2><div class="cols" style="grid-template-columns:1.25fr 1fr"><div class="embed" data-comp="${sl.comp}"></div><div>${sideList(sl.side)}</div></div></div>`;
       return `<div class="slide"><span class="eyebrow">${sl.e}</span><h2 style="font-size:${big ? 70 : 76}px">${sl.h}</h2><div class="embed" data-comp="${sl.comp}" style="${style}"></div></div>`;

@@ -63,10 +63,11 @@ const deep = o => JSON.parse(JSON.stringify(o));
 const toEdit = h => String(h ?? '').replace(/<br\s*\/?>/g,'\n').replace(/<em>(.*?)<\/em>/g,'**$1**').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&');
 const fromEdit = t => esc(t).replace(/\*\*(.+?)\*\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
 function currentContent(){ return {v:1, deck: deep(DECK), home: {...HOME}, missions: deep(MISSIONS), setuk: {...SETUK}}; }
+function addIdeasSlide(D){ if (D.some(L => L.slides.some(x => x.comp === 'ideas'))) return; const L = D.find(L => L.n === 2) || D[1]; if (!L) return; const i = L.slides.findIndex(x => x.comp === 'scamper'); L.slides.splice(i >= 0 ? i+1 : L.slides.length, 0, deep(DECK_DEFAULT[1].slides.find(x => x.comp === 'ideas'))); }
 function applyContent(c, remote){
   if (!c || !Array.isArray(c.deck)) return;
   lastSaved = deep(c); if (c.setuk) SETUK = {...SETUK_DEFAULT, ...c.setuk};
-  DECK = deep(c.deck); HOME = {...HOME_DEFAULT, ...(c.home || {})}; if (Array.isArray(c.missions) && c.missions.length) MISSIONS = deep(c.missions);
+  DECK = deep(c.deck); addIdeasSlide(DECK); HOME = {...HOME_DEFAULT, ...(c.home || {})}; if (Array.isArray(c.missions) && c.missions.length) MISSIONS = deep(c.missions);
   if (curL >= DECK.length) curL = 0; if (curS >= DECK[curL].slides.length) curS = 0;
   renderLsel(); renderHomeText();
   const h = location.hash.slice(1);
@@ -74,7 +75,7 @@ function applyContent(c, remote){
   if (remote && h === 'edit' && !eDirtyFlag){ draft = deep(lastSaved); renderEditor(); }
 }
 const SLIDE_KINDS = {title:'제목', statement:'큰 문장', cards:'카드 4개', steps:'단계 5개', activity:'활동 + 타이머', embed:'도구·영상'};
-const COMP_OPTS = [['model','3D 발명품 모델'],['proj','투상법 3가지 비교'],['iso','등각 투상도 3단계'],['scamper','스캠퍼 휠'],['gacha','아이디어 뽑기'],['missions','미션 지도'],['rubric','평가 기준'],['video:v1','영상 · 문제 해결 4단계'],['video:v2','영상 · 등각 투상도'],['video:v3','영상 · 우드락 안전']];
+const COMP_OPTS = [['model','3D 발명품 모델'],['proj','투상법 3가지 비교'],['iso','등각 투상도 3단계'],['scamper','스캠퍼 휠'],['gacha','아이디어 뽑기'],['missions','미션 지도'],['rubric','평가 기준'],['ideas','재료 힌트 · 발명품 예시 12'],['video:v1','영상 · 문제 해결 4단계'],['video:v2','영상 · 등각 투상도'],['video:v3','영상 · 우드락 안전']];
 const TEMPL = {
   title: () => ({k:'title', e:'○차시', h:'새 제목', sub:''}),
   statement: () => ({k:'statement', h:'여기에 **큰 문장**', sub:''}),
