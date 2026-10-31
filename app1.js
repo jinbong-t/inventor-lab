@@ -10,7 +10,7 @@ function toast(t){ const e = $('#toast'); e.textContent = t; e.classList.add('on
 const COLORS = ['#FF6B5B','#FF9F43','#F5C542','#3DD68C','#2ED3C0','#5AA9FF','#B57BFF','#EEF4FB'];
 const CRIT = [
   {k:'A', name:'문제 확인', m:'MISSION 1', pts:[10,8,6,4], c:'#FF6B5B', top:'누가·언제·어디서·무엇이·왜로 구체적 정의 + 해결 필요성 근거', lv:['불편 상황을 5요소로 구체적으로 정의하고 해결 필요성을 근거와 함께 제시','정의했으나 요소 1~2개 누락 또는 근거 부족','불편함은 제시했으나 문제가 막연함','부분적으로만 수행']},
-  {k:'B', name:'아이디어 탐색', m:'MISSION 2', pts:[15,12,9,6], c:'#FF9F43', top:'브레인스토밍·스캐퍼로 서로 다른 아이디어 3개 이상 + 구체적 설명', lv:['서로 다른 아이디어 3개 이상, 각각 구체적 설명','3개 이상이나 설명이 간단','2개이거나 비슷한 아이디어 반복','1개만 제시']},
+  {k:'B', name:'아이디어 탐색', m:'MISSION 2', pts:[15,12,9,6], c:'#FF9F43', top:'브레인스토밍·스캠퍼로 서로 다른 아이디어 3개 이상 + 구체적 설명', lv:['서로 다른 아이디어 3개 이상, 각각 구체적 설명','3개 이상이나 설명이 간단','2개이거나 비슷한 아이디어 반복','1개만 제시']},
   {k:'C', name:'아이디어 선정', m:'MISSION 3', pts:[10,8,6,4], c:'#F5C542', top:'PMI(평가 행렬)로 2개 이상 비교, 타당한 근거로 최적안 선정', lv:['P·M·I 모두 구체적, 타당한 근거로 선정','작성·선정했으나 근거 다소 부족','PMI 일부 공란 또는 근거 불분명','부분적으로만 작성']},
   {k:'D', name:'프리핸드 스케치', m:'MISSION 4', pts:[10,8,6,4], c:'#3DD68C', top:'입체 표현 + 부품 이름·기능·대략적 치수 메모', lv:['입체적 표현, 부품 이름·기능·치수 모두 메모','입체적이나 설명·치수 일부 누락','평면적이라 형태·기능 파악 어려움','미완성']},
   {k:'E', name:'등각 투상도', m:'MISSION 5', pts:[20,16,12,8], c:'#5AA9FF', top:'120° 세 축, 높이·너비·안쪽 길이 정확, 선 정리, 치수 3개+·축척', lv:['세 축에 맞춰 정확, 선 정리, 치수 3개 이상·축척 표기','바르게 적용했으나 치수·축척·선 정리 중 1가지 미흡','축 방향·길이 오류로 형태 왜곡 또는 치수 대부분 누락','적용 못함 또는 미완성']},
@@ -109,7 +109,7 @@ const COMP = {
   rubric(host){ host.classList.add('rub'); host.innerHTML = CRIT.map(c => `<div class="r"><div class="nm">${c.name}<small>${c.m}</small></div><div class="bar"><i style="--w:${c.pts[0]*4}%;--c:${c.c}"></i><span>${c.top}</span></div><div class="pt">${c.pts[0]}</div></div>`).join(''); },
   gacha(host){
     host.classList.add('gacha');
-    host.innerHTML = `<div class="reels"><div class="reel"><span class="mono">불편함</span><div class="v">젖은 우산이 쓰러져 바닥이 물바다</div></div><div class="reel"><span class="mono">스캐퍼</span><div class="v" style="color:var(--cyan)">C · 결합하기</div></div></div><div class="q">우산 걸이와 물받이를 하나로 합치면 어떨까?</div><button class="btn" type="button">아이디어 뽑기</button>`;
+    host.innerHTML = `<div class="reels"><div class="reel"><span class="mono">불편함</span><div class="v">젖은 우산이 쓰러져 바닥이 물바다</div></div><div class="reel"><span class="mono">스캠퍼</span><div class="v" style="color:var(--cyan)">C · 결합하기</div></div></div><div class="q">우산 걸이와 물받이를 하나로 합치면 어떨까?</div><button class="btn" type="button">아이디어 뽑기</button>`;
     const [rA, rB] = $$('.reel', host), [vA, vB] = $$('.v', host), q = $('.q', host), b = $('.btn', host); let tm;
     b.addEventListener('click', () => { b.disabled = true; rA.classList.add('spin'); rB.classList.add('spin'); q.style.opacity = .3; let n = 0; const total = reduce ? 1 : 16;
       const tick = () => { const p = PROB[Math.random()*PROB.length|0], s = SC[Math.random()*7|0]; vA.textContent = p[0]; vB.textContent = `${s[0]} · ${s[1]}`;
