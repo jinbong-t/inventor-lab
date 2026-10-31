@@ -157,7 +157,7 @@ let gFiles = [], gLevels = {}, gEvidence = {}, gAI = {}, gCtl = null, sample = n
 function renderCrit(){
   $('#gCrit').innerHTML = CRIT.map(c => `<div class="crit" style="--c:${c.c}"><div class="cn">${c.k}. ${c.name}<small>${c.m} · ${c.pts[0]}점</small></div>
     <div><div class="lv">${LV.map((l,i) => `<button type="button" data-k="${c.k}" data-l="${l}" aria-pressed="${gLevels[c.k] === l}" title="${esc(c.lv[i])}">${l} ${c.pts[i]}</button>`).join('')}</div>
-    <div class="ev">${gEvidence[c.k] ? `<span class="ai-tag">AI 근거 ·</span> ${esc(gEvidence[c.k])}` : `<span style="color:var(--muted)">상: ${esc(c.lv[0])}</span>`}</div></div>
+    <div class="ev">${gEvidence[c.k] ? `<span class="ai-tag">AI 근거 ·</span> ${esc(gEvidence[c.k])}` : `<span style="color:var(--muted)">A: ${esc(c.lv[0])}</span>`}</div></div>
     <div class="pt">${gLevels[c.k] ? scoreOf(c.k, gLevels[c.k]) : '–'}</div></div>`).join('');
   $$('#gCrit .lv button').forEach(b => b.addEventListener('click', () => { const k = b.dataset.k; gLevels[k] = gLevels[k] === b.dataset.l ? undefined : b.dataset.l; renderCrit(); }));
   $('#gTotal').textContent = totalOf(gLevels);
@@ -176,7 +176,7 @@ function gStatus(t, cls=''){ const s = $('#gStatus'); s.className = 'status ' + 
 const RUBRIC_TXT = CRIT.map(c => `${c.k}. ${c.name} (${c.m}, 만점 ${c.pts[0]}점)\n` + LV.map((l,i) => `  - ${l}(${c.pts[i]}점): ${c.lv[i]}`).join('\n')).join('\n');
 function gradePrompt(n, part, of){ return `당신은 중학교 기술·가정 교사의 채점 보조자입니다. 첨부한 이미지 ${n}장은 학생 1명의 수행평가 'INVENTOR LAB 발명가 연구 노트'를 스캔한 것입니다${of > 1 ? ` (전체 중 ${part}/${of} 묶음)` : ''}. 쪽 구성: 표지(MISSION 0), MISSION 1 불편함 수배서·문제 정의, MISSION 2 아이디어 팝콘·스캠퍼·BEST3, MISSION 3 PMI·평가 행렬·합격 아이디어, MISSION 4 프리핸드 스케치·부품 스펙, MISSION 5 등각 투상도, MISSION 6 재료표·재단 배치도·공정표·제작 일지, MISSION 7 셀프 심사·동료 의견·버전 2.0·모의 특허 출원서. 발명품 모형 사진이 있으면 F를 평가하고, 없으면 F는 null.
 
-채점 기준표(4수준):
+채점 기준표(5수준 A~E):
 ${RUBRIC_TXT}
 
 규칙:
@@ -188,7 +188,7 @@ ${RUBRIC_TXT}
 ${of === 1 ? `- setuk에는 아래 기준에 맞춘 과목별 세특 초안을 쓸 것.\n\n${setukRules()}` : ''}
 
 다음 JSON만 출력:
-{"scores":{"A":{"level":"상|중상|중|하|null","evidence":"..."},"B":{...},"C":{...},"D":{...},"E":{...},"F":{...},"G":{...}},"feedback":{"good":"...","next":"...","message":"..."},"facts":["..."]${of === 1 ? ',"setuk":"..."' : ''},"notes":"교사 참고 사항(판독 어려움 등)"}`; }
+{"scores":{"A":{"level":"A|B|C|D|E|null","evidence":"..."},"B":{...},"C":{...},"D":{...},"E":{...},"F":{...},"G":{...}},"feedback":{"good":"...","next":"...","message":"..."},"facts":["..."]${of === 1 ? ',"setuk":"..."' : ''},"notes":"교사 참고 사항(판독 어려움 등)"}`; }
 $('#gRun').addEventListener('click', async () => {
   if (!gFiles.length){ gStatus('먼저 연구 노트 사진을 올려 주세요.', 'err'); return; }
   const mode = await aiMode(true);
@@ -252,10 +252,10 @@ function loadIntoGrader(rec){ resetGrade(); $('#gCls').value = rec.cls || ''; $(
 /* ================= dashboard ================= */
 let demoOn = true, dSel = null, dSort = {k:'sid', dir:1};
 const DEMO = (() => { const names = ['김민준','이서연','박도윤','최하준','정지호','강예준','조시우','윤주원','장지훈','임건우','한도현','오선우','서준서','신유준','권은우','황승민'];
-  const pick = (seed, w) => { const r = (Math.sin(seed)*10000) % 1, x = Math.abs(r); let a = 0; for (let i = 0; i < 4; i++){ a += w[i]; if (x < a) return LV[i]; } return LV[3]; };
-  const W = {A:[.5,.3,.15,.05],B:[.4,.35,.2,.05],C:[.35,.35,.2,.1],D:[.45,.3,.2,.05],E:[.2,.3,.35,.15],F:[.4,.35,.2,.05],G:[.3,.4,.2,.1]};
+  const pick = (seed, w) => { const r = (Math.sin(seed)*10000) % 1, x = Math.abs(r); let a = 0; for (let i = 0; i < 5; i++){ a += w[i]; if (x < a) return LV[i]; } return LV[4]; };
+  const W = {A:[.4,.3,.2,.07,.03],B:[.35,.35,.2,.07,.03],C:[.3,.35,.25,.07,.03],D:[.4,.3,.2,.07,.03],E:[.2,.3,.3,.15,.05],F:[.35,.35,.2,.07,.03],G:[.25,.4,.25,.07,.03]};
   return names.map((n,i) => { const sid = `101${String(i+1).padStart(2,'0')}`, levels = {}; CRIT.forEach((c,j) => levels[c.k] = pick(i*7.3+j*1.9+1, W[c.k]));
-    return {sid, name:n, cls:'1-1 (예시)', levels, evidence:{}, demo:true, feedback:{good:'문제 상황을 누가·언제·어디서로 구체적으로 정의해서 아이디어가 분명했어요.', next:levels.E === '상' ? '버전 2.0 업그레이드 그림을 더 구체적으로 그려 보세요.' : '등각 투상도에 치수 3개와 축척을 꼭 적어 보세요.', message:'끝까지 만들어 낸 진짜 발명가예요!'}}; }); })();
+    return {sid, name:n, cls:'1-1 (예시)', levels, evidence:{}, demo:true, feedback:{good:'문제 상황을 누가·언제·어디서로 구체적으로 정의해서 아이디어가 분명했어요.', next:levels.E === 'A' ? '버전 2.0 업그레이드 그림을 더 구체적으로 그려 보세요.' : '등각 투상도에 치수 3개와 축척을 꼭 적어 보세요.', message:'끝까지 만들어 낸 진짜 발명가예요!'}}; }); })();
 const keyOf = sid => 's-' + String(sid).replace(/[^0-9A-Za-z_-]/g,'_');
 function recs(){ const real = [...Store.recs.entries()].map(([k,v]) => ({key:k, ...v}));
   if (real.length || CLASSES.length) demoOn = false;
@@ -284,9 +284,9 @@ function renderDash(){
   const lowI = rates.indexOf(Math.min(...rates.filter((_,i) => list.some(r => r.levels?.[CRIT[i].k]))));
   $('#dInsight').textContent = list.length && lowI >= 0 ? `보충 추천 · ${CRIT[lowI].name}(${(rates[lowI]*100).toFixed(0)}%) — 다음 수업 시작 5분 피드백` : '';
   const sorted = [...list].sort((a,b) => { const k = dSort.k; const va = k === 'total' ? totalOf(a.levels) : k.length === 1 ? scoreOf(k, a.levels?.[k]) : (a[k] || ''); const vb = k === 'total' ? totalOf(b.levels) : k.length === 1 ? scoreOf(k, b.levels?.[k]) : (b[k] || ''); return (va > vb ? 1 : va < vb ? -1 : 0)*dSort.dir; });
-  const lc = l => ({'상':'#3DD68C','중상':'#8FD3FF','중':'#F5C542','하':'#FF6B5B'}[l] || '#2E5E99');
+  const lc = l => ({'A':'#3DD68C','B':'#8FD3FF','C':'#F5C542','D':'#FF9F43','E':'#FF6B5B'}[l] || '#2E5E99');
   $('#dTbl').innerHTML = `<thead><tr><th data-s="sid">학번</th><th data-s="name">이름</th>${CRIT.map(c => `<th data-s="${c.k}" title="${c.name}">${c.k}</th>`).join('')}<th data-s="total" class="num">합계</th><th>세특</th></tr></thead><tbody>` +
-    sorted.map(r => `<tr data-k="${esc(r.key)}" class="${r.key === dSel ? 'sel' : ''} ${r.pending ? 'pending' : ''}" tabindex="0"><td>${esc(r.sid)}</td><td>${esc(r.name)}</td>${CRIT.map(c => `<td><span class="lvd" style="background:${lc(r.levels?.[c.k])}" title="${r.levels?.[c.k] || '미평가'}">${r.levels?.[c.k] ? r.levels[c.k][0] + (r.levels[c.k] === '중상' ? '+' : '') : '·'}</span></td>`).join('')}<td class="num">${r.pending ? '<span class="chip" style="color:var(--warn)">미채점</span>' : `<b>${totalOf(r.levels)}</b>`}</td><td>${r.setuk ? `<span class="chip" style="color:var(--good)" title="${neisBytes(r.setuk)}바이트">✓ ${r.setuk.length}자</span>` : r.pending ? '' : '<span class="chip" style="color:var(--muted)">없음</span>'}</td></tr>`).join('') + '</tbody>';
+    sorted.map(r => `<tr data-k="${esc(r.key)}" class="${r.key === dSel ? 'sel' : ''} ${r.pending ? 'pending' : ''}" tabindex="0"><td>${esc(r.sid)}</td><td>${esc(r.name)}</td>${CRIT.map(c => `<td><span class="lvd" style="background:${lc(r.levels?.[c.k])}" title="${r.levels?.[c.k] || '미평가'}">${r.levels?.[c.k] || '·'}</span></td>`).join('')}<td class="num">${r.pending ? '<span class="chip" style="color:var(--warn)">미채점</span>' : `<b>${totalOf(r.levels)}</b>`}</td><td>${r.setuk ? `<span class="chip" style="color:var(--good)" title="${neisBytes(r.setuk)}바이트">✓ ${r.setuk.length}자</span>` : r.pending ? '' : '<span class="chip" style="color:var(--muted)">없음</span>'}</td></tr>`).join('') + '</tbody>';
   $$('#dTbl th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.s; dSort = {k, dir: dSort.k === k ? -dSort.dir : (k.length === 1 || k === 'total' ? -1 : 1)}; renderDash(); }));
   $$('#dTbl tbody tr').forEach(tr => { const f = () => { dSel = tr.dataset.k; renderDash(); }; tr.addEventListener('click', f); tr.addEventListener('keydown', e => { if (e.key === 'Enter') f(); }); });
   if (!dSel || !list.find(r => r.key === dSel)) dSel = sorted[0]?.key || null;
