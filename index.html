@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INVENTOR LAB 수업 웹앱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#home">INVENTOR <span>LAB</span></a>
+    <nav class="tabs" aria-label="메뉴">
+      <a href="#home"><small>00</small>홈</a>
+      <a href="#slides"><small>01</small>수업 슬라이드</a>
+      <a href="#videos"><small>02</small>영상</a>
+      <a href="#grade"><small>03</small>AI 채점</a>
+      <a href="#dashboard"><small>04</small>피드백 대시보드</a>
+      <a href="#setup" id="teacherLink" hidden><small>T</small>교사 로그인</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main class="view wrap" id="v-home">
+  <div class="hero">
+    <div>
+      <span class="mono">기술·가정 Ⅳ · 기술적 문제 해결과 발명 · 6차시 실습 수행평가</span>
+      <h1><span id="hT1">불편함을</span><span class="o"><span id="hT2">발명으로</span><span class="dot">.</span></span></h1>
+      <p class="lede" id="hLede">생활 속 불편함을 찾아 아이디어를 내고, 등각 투상도로 설계해서, 우드락 발명품 모형으로 만드는 프로젝트. 수업 슬라이드부터 영상, 활동지 AI 채점, 학생 피드백까지 이 한 곳에서 진행한다.</p>
+      <p class="hand" id="hHand">오른쪽 도면을 드래그해서 돌려 보세요</p>
+    </div>
+    <div class="board" data-model="hero"></div>
+  </div>
+  <div class="launch">
+    <a href="#slides"><span class="mono">01 · 수업용</span><b>수업 슬라이드</b><span id="deckCount">6차시 슬라이드. 화살표 키로 넘기고 전체 화면으로 발표</span></a>
+    <a href="#videos"><span class="mono">02 · 동기 유발</span><b>영상</b><span>모션 영상 3편 + 직접 올린 영상·유튜브 링크</span></a>
+    <a href="#grade"><span class="mono">03 · 교사용</span><b>AI 채점</b><span>스캔한 연구 노트를 올리면 채점 기준표로 초안 채점</span></a>
+    <a href="#dashboard"><span class="mono">04 · 교사용</span><b>피드백 대시보드</b><span>학급 현황, 영역별 약점, 학생별 피드백 카드</span></a>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><h2>6차시 흐름</h2><p>차시를 누르면 그 차시 슬라이드가 열린다.</p></div>
+    <div class="lessons" id="lessonStrip"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><h2>투상법 3가지</h2><p>교과서 155쪽 · 같은 물체를 세 가지 방법으로. 버튼을 누르면 입체가 바뀌고, ①②③으로 교과서 그리기 단계를 따라가요.</p></div>
+    <div class="panel" style="padding:18px"><div data-comp="proj:full"></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><h2>8개의 미션</h2><p>INVENTOR LAB 발명가 연구 노트의 미션 구성</p></div>
+    <div class="mmap" data-comp="missions"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><h2>평가 기준 100점</h2><p>학기 성적 반영 50% · 막대 길이가 곧 배점</p></div>
+    <div class="panel" style="padding:20px"><div class="rub" data-comp="rubric"></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><h2>성취기준</h2><p>영역: 기술적 문제해결과 혁신</p></div>
+    <div class="std">
+      <div class="panel"><b>[9기가03-03]</b><p>기술적 문제 해결 과정의 이해를 바탕으로 문제를 확인하고, 정보를 수집하며, 확산적 사고와 수렴적 사고를 통해 해결방안을 탐색하고 대안을 선정한다.</p></div>
+      <div class="panel"><b>[9기가03-04]</b><p>기술적 문제 해결 방안을 시각화하고 도면을 작성하며, 올바른 도구를 선택하여 시제품 또는 모형을 제작 및 평가하는 과정에서 협업 능력, 공감 능력과 의사소통 능력을 기른다.</p></div>
+      <div class="panel"><b>[9기가03-06]</b><p>지식재산권의 종류와 특징을 이해하고, 지식재산과 관련한 다양한 사례 조사 및 체험을 통해 지식재산권의 창출, 보호, 활용을 이해하고 실천한다.</p></div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= SLIDES ================= -->
+<main class="view wrap" id="v-slides">
+  <div class="deckbar">
+    <div class="lsel" id="lsel" role="group" aria-label="차시 선택"></div>
+    <span class="sp"></span>
+    <button class="btn ghost sm" id="sPrev" type="button">◀ 이전</button>
+    <span class="mono" id="sCount">1 / 1</span>
+    <button class="btn ghost sm" id="sNext" type="button">다음 ▶</button>
+    <button class="btn sm" id="sFull" type="button">발표 모드</button>
+  </div>
+  <div class="stagewrap" id="stagewrap">
+    <div class="stage" id="stage"></div>
+    <button class="navbtn l" id="sPrev2" type="button" aria-label="이전 슬라이드">‹</button>
+    <button class="navbtn r" id="sNext2" type="button" aria-label="다음 슬라이드">›</button>
+  </div>
+  <div class="thumbs" id="sThumbs"></div>
+  <div class="notes panel" id="sNotes"></div>
+  <p class="mono" style="margin-top:10px">← → 키로 넘기기 · F 발표 모드 · Esc 나가기</p>
+</main>
+
+<!-- ================= VIDEOS ================= -->
+<main class="view wrap" id="v-videos">
+  <div class="sec-h"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">영상관</h2><p>이 웹앱에서 바로 재생되는 모션 영상과, 선생님이 추가한 영상</p></div>
+  <div class="vgrid">
+    <div id="vMain" style="min-height:300px"></div>
+    <div>
+      <div class="vlist" id="vList"></div>
+      <div class="panel addv" id="vAdd">
+        <strong>영상 추가</strong>
+        <div class="field"><label for="vTitle">제목</label><input type="text" id="vTitle" placeholder="예: 우드락 자르는 법"></div>
+        <div class="field"><label for="vUrl">유튜브 등 링크 (새 창에서 열림)</label><input type="text" id="vUrl" placeholder="https://www.youtube.com/watch?v=…"></div>
+        <div class="row"><button class="btn sm" id="vAddLink" type="button">링크 추가</button>
+          <label class="btn ghost sm" for="vFile" style="cursor:pointer">영상 파일 올리기</label><input type="file" id="vFile" accept="video/*" hidden></div>
+        <span class="mono" id="vNote">파일은 이 웹앱에 저장되어 수업 때 바로 재생돼요</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= GRADE ================= -->
+<main class="view wrap" id="v-grade">
+  <div class="sec-h"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">AI 채점</h2><p>연구 노트 스캔본(사진)을 올리면 채점 기준표에 따라 초안을 만든다. 최종 점수는 선생님이 확인해서 저장.</p></div>
+  <div class="ggrid">
+    <div>
+      <div class="panel" style="padding:18px">
+        <div class="row" style="gap:12px">
+          <div class="field" style="flex:1;min-width:110px"><label for="gCls">반</label><input type="text" id="gCls" list="clsList" placeholder="1-1"><datalist id="clsList"></datalist></div>
+          <div class="field" style="flex:1;min-width:110px"><label for="gId">학번</label><input type="text" id="gId" placeholder="10101"></div>
+          <div class="field" style="flex:1.4;min-width:130px"><label for="gName">이름</label><input type="text" id="gName" placeholder="김발명"></div>
+        </div>
+        <div class="field" style="margin-top:10px" id="gPickWrap" hidden><label for="gPick">명렬에서 학생 고르기 (✓ = 채점 완료)</label><select id="gPick"></select></div>
+        <div class="drop" id="drop" style="margin-top:14px">
+          <b>연구 노트 사진을 여기에 끌어다 놓기</b>
+          <p style="margin:6px 0 12px;color:var(--muted);font-size:14px">JPG·PNG · 쪽 순서대로 · 모형 사진을 함께 올리면 모형 제작(F)도 초안 채점</p>
+          <label class="btn ghost sm" for="gFiles" style="cursor:pointer">파일 선택</label>
+          <input type="file" id="gFiles" accept="image/*" multiple hidden>
+        </div>
+        <div class="thumbsg" id="gThumbs"></div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn" id="gRun" type="button">AI 초안 채점</button>
+          <button class="btn ghost sm" id="gStop" type="button" hidden>중지</button>
+          <button class="btn ghost sm" id="gClear" type="button">새 학생</button>
+          <a class="btn ghost sm" href="#classes">반 설정</a>
+        </div>
+        <div class="status" id="gStatus">사진을 올리고 <b>AI 초안 채점</b>을 누르세요. AI를 쓰지 않고 오른쪽에서 바로 수준을 골라 채점해도 됩니다.</div>
+      </div>
+      <div class="panel" style="padding:16px;margin-top:14px">
+        <span class="mono">채점 원칙</span>
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:14px;color:#C9D8EC">
+          <li>AI 결과는 <b>초안</b>입니다. 근거 문장을 보고 수준을 직접 확정하세요.</li>
+          <li>사진에서 확인되지 않는 영역은 비워 두며, 선생님이 입력합니다.</li>
+          <li>학생 사진은 저장하지 않고, 점수·근거·피드백만 선생님 계정에 저장합니다.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel" style="padding:18px">
+      <div class="row" style="justify-content:space-between"><span class="mono">채점표 · 100점</span><span class="mono" id="gWho">학생 미지정</span></div>
+      <div id="gCrit"></div>
+      <div class="total"><span class="mono">합계</span><b id="gTotal">0</b></div>
+      <div class="field"><label for="fbGood">잘한 점 (학생용)</label><textarea id="fbGood"></textarea></div>
+      <div class="field" style="margin-top:8px"><label for="fbNext">다음 단계 (학생용)</label><textarea id="fbNext"></textarea></div>
+      <div class="field" style="margin-top:8px"><label for="fbMsg">한마디 응원</label><textarea id="fbMsg" style="min-height:50px"></textarea></div>
+      <div class="field" style="margin-top:8px"><label for="fbSetuk">과목별 세특 초안 (교사용 · AI 채점 시 함께 작성)</label><textarea id="fbSetuk" style="min-height:130px"></textarea><span class="mono" id="setukCnt">0자 · 0바이트 / NEIS 1500바이트</span></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" id="gSave" type="button">저장하고 대시보드에 반영</button>
+        <button class="btn ghost sm" id="gSetuk" type="button">세특 다시 쓰기</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= DASHBOARD ================= -->
+<main class="view wrap" id="v-dashboard">
+  <nav class="subtabs" aria-label="대시보드 메뉴"><a href="#dashboard">학급 현황</a><a href="#classes">반 설정</a><a href="#edit">내용 편집</a><a href="#setup">연결·세특 설정</a></nav>
+  <section class="dpanel" id="p-dashboard">
+  <div class="row" style="justify-content:space-between;margin-bottom:16px">
+    <div class="sec-h" style="margin:0"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">피드백 대시보드</h2></div>
+    <div class="row">
+      <select id="dCls" aria-label="반 선택"></select>
+      <button class="btn ghost sm" id="dBatch" type="button">빈 세특 AI 일괄 작성</button><button class="btn ghost sm" id="dNeis" type="button">세특 모아 복사 (NEIS용)</button><button class="btn ghost sm" id="dCsv" type="button">CSV 내보내기</button>
+    </div>
+  </div>
+  <div id="dDemo" style="margin-bottom:12px"></div>
+  <div class="tiles" id="dTiles"></div>
+  <div class="dgrid">
+    <div class="panel"><h3>영역별 평균 달성률 <span class="mono" style="margin-left:8px">낮을수록 다음 수업에서 보충</span></h3><div class="rub" id="dCrit" style="--rh:26px;--rf:14px;--rn:150px"></div></div>
+    <div class="panel"><h3>점수 분포</h3><div class="hist" id="dHist"></div><div class="histx" id="dHistX"></div><p class="mono" style="margin-top:14px" id="dInsight"></p></div>
+  </div>
+  <div class="dgrid">
+    <div class="panel"><h3>학생 목록 <span class="mono" style="margin-left:8px">행을 누르면 피드백 카드</span></h3><div class="tblwrap"><table class="tbl" id="dTbl"></table></div></div>
+    <div><div id="dCard"></div>
+      <div class="row" style="margin-top:10px"><button class="btn sm" id="dCopy" type="button">피드백 문구 복사</button><button class="btn ghost sm" id="dShow" type="button">크게 보기</button><button class="btn ghost sm" id="dEdit" type="button">채점 화면에서 수정</button><button class="btn ghost sm" id="dDel" type="button">삭제</button></div>
+    </div>
+  </div>
+  </section>
+
+  <section class="dpanel" id="p-classes">
+    <div class="sec-h"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">반 설정</h2><p>반을 만들고 명렬을 넣으면 채점 화면에서 학생을 고르고, 현황에서 미채점 학생까지 보여요.</p></div>
+    <div class="cgrid">
+      <div class="panel eform">
+        <strong id="cFormTitle">새 반 만들기</strong>
+        <div class="two"><div class="field"><label for="cName">반 이름</label><input type="text" id="cName" placeholder="1-1"></div>
+          <div class="field"><label for="cMemo">메모 (선택)</label><input type="text" id="cMemo" placeholder="월 3·4교시"></div></div>
+        <div class="field"><label for="cRoster">명렬 — 한 줄에 한 명 (학번 이름). 엑셀에서 두 열을 복사해 붙여넣어도 돼요.</label><textarea id="cRoster" style="min-height:220px" placeholder="10101 김민준&#10;10102 이서연&#10;10103 박도윤"></textarea></div>
+        <div class="row"><span class="mono">빠른 생성</span><input type="number" id="cG" min="1" max="3" value="1" style="width:64px" aria-label="학년"><span class="mono">학년</span><input type="number" id="cC" min="1" max="20" value="1" style="width:64px" aria-label="반"><span class="mono">반</span><input type="number" id="cN" min="1" max="45" value="28" style="width:70px" aria-label="인원"><span class="mono">명</span><button class="btn ghost sm" id="cGen" type="button">번호 채우기</button></div>
+        <div class="row"><button class="btn" id="cSave" type="button">반 저장</button><button class="btn ghost sm" id="cNew" type="button">새로 쓰기</button><span class="mono" id="cCount"></span></div>
+      </div>
+      <div><div class="clist" id="cList"></div></div>
+    </div>
+  </section>
+
+    <section class="dpanel" id="p-setup">
+    <div class="sec-h"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">연결 · 세특 설정</h2><p>지금 상태: <b id="modeNow">불러오는 중</b></p></div>
+    <div class="cgrid">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="panel eform" id="setupGas">
+          <strong>구글 시트(GAS) 연결 — GitHub Pages 등에 배포했을 때</strong>
+          <div class="field"><label for="sUrl">GAS 웹앱 주소 (…/exec)</label><input type="text" id="sUrl" placeholder="https://script.google.com/macros/s/…/exec"></div>
+          <div class="field"><label for="sCode">교사 코드 (GAS 스크립트 속성 TEACHER_CODE와 같게)</label><input type="password" id="sCode" autocomplete="off"></div>
+          <div class="row"><button class="btn" id="sSave" type="button">저장하고 연결</button><button class="btn ghost sm" id="sTest" type="button">연결 테스트</button><button class="btn ghost sm" id="sOut" type="button">이 기기에서 교사 코드 지우기</button></div>
+          <div class="status" id="sStatus">교사 코드는 이 브라우저에만 저장돼요. <b>학생 기기에는 넣지 마세요.</b> 주소만 넣고 코드를 비우면 학생용(수업 화면만)으로 열려요.</div>
+        </div>
+        <div class="panel eform">
+          <strong>배포 순서 (한 번만)</strong>
+          <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7;color:#C9D8EC">
+            <li>새 구글 시트 → 확장 프로그램 → Apps Script → <b>Code.gs</b> 내용 붙여넣기</li>
+            <li>프로젝트 설정 → 스크립트 속성: <code>TEACHER_CODE</code>, <code>AI_PROVIDER</code>(gemini 또는 claude), <code>GEMINI_API_KEY</code> 또는 <code>CLAUDE_API_KEY</code>, <code>AI_MODEL</code></li>
+            <li>함수 <code>setup</code> 한 번 실행(권한 허용) → 시트 탭이 만들어져요</li>
+            <li>배포 → 새 배포 → 웹 앱 · 실행: <b>나</b> · 액세스: <b>모든 사용자</b> → /exec 주소 복사</li>
+            <li>이 index.html을 GitHub Pages에 올리고, 교사 컴퓨터에서 위 칸에 주소와 코드 입력</li>
+          </ol>
+        </div>
+      </div>
+      <div class="panel eform">
+        <strong>과목별 세특 작성 설정</strong>
+        <div class="field"><label for="sLen">목표 분량 (공백 포함 글자 수)</label><select id="sLen"><option value="250">250자 내외</option><option value="300">300자 내외</option><option value="400">400자 내외</option><option value="480">480자 내외 (NEIS 500자 근접)</option></select></div>
+        <div class="field"><label for="sStyle">선생님 문체 예시 (평소 쓰시는 세특 1~2개를 붙여넣으면 문체를 따라 써요)</label><textarea id="sStyle" style="min-height:150px" placeholder="예) 생활 속 문제를 기술적으로 해결하는 과정에 흥미를 보이며…"></textarea></div>
+        <div class="field"><label for="sExtra">추가 지시 (선택)</label><input type="text" id="sExtra" placeholder="예: 진로와 연결된 문장 한 줄 포함, 협업 태도 강조"></div>
+        <div class="row"><button class="btn" id="sSetukSave" type="button">세특 설정 저장</button><span class="mono" id="sSetukNote"></span></div>
+        <p style="font-size:13px;color:var(--muted);margin:4px 0 0">AI 세특은 초안이에요. 학생이 실제로 한 활동인지 확인하고, 학교 학생부 기재요령에 맞게 다듬어 입력하세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="dpanel" id="p-edit">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div class="sec-h" style="margin:0"><h2 style="font-family:var(--display);font-weight:400;font-size:40px">내용 편집</h2><p>슬라이드와 홈 화면 글을 고치면 이 웹앱 전체에 바로 반영돼요. <b>**굵게**</b>로 감싸면 주황 강조.</p></div>
+      <div class="row"><span class="mono" id="eDirty"></span><button class="btn" id="eSave" type="button">저장</button><button class="btn ghost sm" id="eUndo" type="button">마지막 저장으로</button><button class="btn ghost sm" id="eReset" type="button">처음 내용으로 초기화</button></div>
+    </div>
+    <div class="egrid">
+      <div class="eside">
+        <div class="panel eform">
+          <div class="field"><label for="eTarget">편집할 곳</label><select id="eTarget"></select></div>
+          <div id="eLesson"></div>
+          <div class="slist" id="eSlides"></div>
+          <div class="row" id="eAddRow"><select id="eAddKind" aria-label="추가할 슬라이드 종류"><option value="statement">큰 문장</option><option value="cards">카드 4개</option><option value="steps">단계 5개</option><option value="activity">활동 + 타이머</option><option value="embed">도구·영상 넣기</option><option value="title">제목</option></select><button class="btn ghost sm" id="eAdd" type="button">+ 슬라이드 추가</button></div>
+        </div>
+        <div class="panel eform" id="eForm"></div>
+      </div>
+      <div style="position:sticky;top:76px">
+        <div class="pstage" id="ePrevWrap"><div class="stage" id="ePrev"></div></div>
+        <div class="row" style="margin-top:8px"><span class="mono" id="ePrevInfo">미리 보기</span><button class="btn ghost sm" id="eOpen" type="button">이 슬라이드를 수업 화면에서 열기</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app1.js"></script>
+<script src="app2.js"></script>
+<script src="app3.js"></script>
+<script src="app4.js"></script>
+
+</body>
+</html>
