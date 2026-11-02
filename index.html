@@ -4,6 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>INVENTOR LAB 수업 웹앱</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+.foot{border-top:1px solid var(--grid);margin-top:56px;padding:26px 0 34px;color:var(--muted);font-size:14px}
+.foot .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px 24px;flex-wrap:wrap}
+.foot .fl{display:flex;align-items:center;gap:12px}
+.foot .fl img{width:34px;height:34px;flex:none}
+.foot b{color:var(--paper);font-weight:700}
+.foot .cp{font-family:var(--mono);font-size:12px;letter-spacing:.06em}
+.foot .fr{text-align:right;line-height:1.6}
+.foot .co{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.18em;color:var(--paper)}
+.foot .co i{width:9px;height:9px;background:var(--accent);transform:rotate(45deg)}
+.foot .fr .cp{opacity:.7}
+@media (max-width:700px){.foot .fr{text-align:left}}
+@media print{.foot{display:none}}
+</style>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
@@ -258,6 +274,13 @@
     </div>
   </section>
 </main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="fl"><img src="favicon.svg" alt="" aria-hidden="true"><div><b>INVENTOR LAB</b> · 기술적 문제 해결과 발명 수업 웹앱<br><span class="cp">© 2026 LJY · 수업 자료의 무단 복제·배포를 금합니다</span></div></div>
+    <div class="fr"><span class="co"><i></i>LJY</span><br><span class="cp">Designed &amp; developed by LJY. All rights reserved.</span></div>
+  </div>
+</footer>
 
 <div class="toast" id="toast" role="status"></div>
 
